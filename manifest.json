@@ -1,0 +1,26 @@
+{
+    "name": "Camouflaging webpage",
+    "description": "Camouflaging the webpage which like Youtube,X and Google",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "./popup/index.html"
+    },
+    "icons": {
+        "16": "logo.png",
+        "32": "logo.png",
+        "48": "logo.png",
+        "128": "logo.png"
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "scripts/content.js"
+            ],
+            "matches": [
+                "https://www.baidu.com/*",
+                "https://*.google.com/*"
+            ]
+        }
+    ]
+}
