@@ -1,1 +1,1 @@
-console.log(Vue)
+console.log(chrome.scripting)

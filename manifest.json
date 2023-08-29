@@ -22,5 +22,6 @@
                 "https://*.google.com/*"
             ]
         }
-    ]
+    ],
+    "permissions": ["scripting"]
 }
