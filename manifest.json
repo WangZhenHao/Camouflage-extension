@@ -10,24 +10,14 @@
         "service_worker": "background.js"
     },
     "permissions": [
-        "webNavigation",
-        "notifications"
+        "scripting"
     ],
+    "host_permissions": ["https://*/*"],
     "icons": {
         "16": "logo.png",
         "32": "logo.png",
         "48": "logo.png",
         "128": "logo.png"
-    },
-    "content_scripts": [
-        {
-            "js": [
-                "scripts/content.js"
-            ],
-            "matches": [
-                "https://www.baidu.com/*",
-                "https://*.google.com/*"
-            ]
-        }
-    ]
+    }
+    
 }
