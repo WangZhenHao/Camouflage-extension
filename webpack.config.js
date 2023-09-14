@@ -1,19 +1,19 @@
-const path = require("path");
-const HTMLPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const path = require('path')
+const HTMLPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: {
-        index: "./src/index.tsx",
+        index: './src/index.tsx',
     },
-    mode: "production",
+    mode: 'development',
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
                 use: [
                     {
-                        loader: "ts-loader",
+                        loader: 'ts-loader',
                         options: {
                             compilerOptions: { noEmit: false },
                         },
@@ -24,7 +24,7 @@ module.exports = {
             {
                 exclude: /node_modules/,
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },
@@ -32,34 +32,34 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: path.join(__dirname, "./public"),
-                    to: path.join(__dirname, "./dist"),
+                    from: path.join(__dirname, './public'),
+                    to: path.join(__dirname, './dist'),
                     globOptions: {
-                        ignore: ["**/template.*"],
+                        ignore: ['**/template.*'],
                     },
                 },
             ],
         }),
-        ...getHtmlPlugins(["index"]),
+        ...getHtmlPlugins(['index']),
     ],
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        path: path.join(__dirname, "./dist"),
-        filename: path.posix.join("js/[name].js"),
-        publicPath: "./",
+        path: path.join(__dirname, './dist'),
+        filename: path.posix.join('js/[name].js'),
+        publicPath: './',
     },
-};
+}
 
 function getHtmlPlugins(chunks) {
     return chunks.map(
         (chunk) =>
             new HTMLPlugin({
-                title: "React extension",
+                title: 'React extension',
                 filename: `${chunk}.html`,
                 chunks: [chunk],
-                template: path.join(__dirname, "./public/template.html"),
-            })
-    );
+                template: path.join(__dirname, './public/template.html'),
+            }),
+    )
 }
