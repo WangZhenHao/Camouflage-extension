@@ -44,7 +44,19 @@
 //         }
 //     }
 // });
-chrome.runtime.onInstalled.addListener(() => {
+const listMap = [
+    { name: 'google', value: 1 },
+    { name: 'twitter', value: 1 },
+    { name: 'youtube', value: 1 },
+]
+
+chrome.runtime.onInstalled.addListener(async () => {
+    // const storage = chrome.storage.local
+    // let item = await storage.get('websiteList')
+
+    // item = item ? item : listMap
+    // console.log(item)
+
     chrome.scripting.registerContentScripts([
         {
             allFrames: false,
@@ -56,3 +68,16 @@ chrome.runtime.onInstalled.addListener(() => {
         },
     ])
 })
+
+chrome.runtime.onMessage.addListener(async function (message) {
+    // const storage = chrome.storage.local
+    // let item = await storage.get('websiteList')
+
+    console.log(message)
+})
+
+// function registerContentScripts(list) {}
+
+// function removeContentScripts() {
+
+// }

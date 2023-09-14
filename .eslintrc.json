@@ -19,5 +19,6 @@
     "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
     "rules": {
       //add customize rules here as per your project's needs
+      "no-debugger": "off"
     }
 }  

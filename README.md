@@ -4,4 +4,4 @@
 
 1. chrome-extension://hnbocnmhkjjkedobihaiecgecebjdhjd/manifest.json
 
-chrome-extension://felggoelokgbhaacpfaphffeommlhljp/manifest.json
+chrome-extension://lbiigkhfkheiplacdjokghnmmdpgpiom/manifest.json
