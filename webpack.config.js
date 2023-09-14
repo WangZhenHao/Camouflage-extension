@@ -32,7 +32,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: path.join(__dirname, './public'),
+                    from: path.join(__dirname, './src/public'),
                     to: path.join(__dirname, './dist'),
                     globOptions: {
                         ignore: ['**/template.*'],
@@ -59,7 +59,7 @@ function getHtmlPlugins(chunks) {
                 title: 'React extension',
                 filename: `${chunk}.html`,
                 chunks: [chunk],
-                template: path.join(__dirname, './public/template.html'),
+                template: path.join(__dirname, './src/public/template.html'),
             }),
     )
 }
