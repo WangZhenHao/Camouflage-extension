@@ -44,6 +44,26 @@
 //         }
 //     }
 // });
+// const listMap = [
+//     { name: 'google', value: 1 },
+//     { name: 'twitter', value: 1 },
+//     { name: 'youtube', value: 1 },
+// ]
+const webMap = {
+    google: {
+        id: 'google',
+        option: [
+            {
+                allFrames: false,
+                id: 'google',
+                js: ['./page/google/index.js'],
+                css: ['./page/google/index.css'],
+                runAt: 'document_start',
+                matches: ['https://*.google.com/*'],
+            },
+        ],
+    },
+}
 const listMap = [
     { name: 'google', value: 1 },
     { name: 'twitter', value: 1 },
@@ -51,33 +71,42 @@ const listMap = [
 ]
 
 chrome.runtime.onInstalled.addListener(async () => {
-    // const storage = chrome.storage.local
-    // let item = await storage.get('websiteList')
+    const res = await chrome.storage.local.get('websiteList')
+    const target = res && res.websiteList ? res.websiteList : listMap
 
-    // item = item ? item : listMap
-    // console.log(item)
-
-    chrome.scripting.registerContentScripts([
-        {
-            allFrames: false,
-            id: 'proxy',
-            js: ['./page/google/index.js'],
-            css: ['./page/google/index.css'],
-            runAt: 'document_start',
-            matches: ['https://*.google.com/*'],
-        },
-    ])
+    calucateWebSize(target)
 })
 
-chrome.runtime.onMessage.addListener(async function (message) {
-    // const storage = chrome.storage.local
-    // let item = await storage.get('websiteList')
+chrome.runtime.onMessage.addListener(function (message) {
+    if (message.name === 'switchClick') {
+        const webList = message.websiteList
 
-    console.log(message)
+        calucateWebSize(webList)
+    }
 })
 
-// function registerContentScripts(list) {}
+async function calucateWebSize(webList) {
+    const scripts = await chrome.scripting.getRegisteredContentScripts()
 
-// function removeContentScripts() {
+    webList.forEach((item) => {
+        const webDetail = webMap[item.name]
 
-// }
+        if (!webDetail) return
+
+        const scriptDetail = scripts.find((detial) => detial.id === webDetail.id)
+
+        if (item.value === 1) {
+            !scriptDetail && registerContentScripts(webDetail.option)
+        } else {
+            scriptDetail && removeContentScripts([scriptDetail.id])
+        }
+    })
+}
+
+function registerContentScripts(list) {
+    chrome.scripting.registerContentScripts(list)
+}
+
+function removeContentScripts(scriptIds) {
+    chrome.scripting.unregisterContentScripts({ ids: scriptIds })
+}

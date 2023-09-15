@@ -1,7 +1,26 @@
-# Camouflaging the webpage which like Youtube,X and Google
+# 网站伪装
 
-### Debug the service worker
+通过向网站插入js，css改变一个网站的外观
 
-1. chrome-extension://hnbocnmhkjjkedobihaiecgecebjdhjd/manifest.json
+## 技术栈
 
-chrome-extension://lbiigkhfkheiplacdjokghnmmdpgpiom/manifest.json
+React + antd + eslint + prettier
+
+示例：
+![demo1](https://github.com/WangZhenHao/camouflage-extension/raw/dev/img/1.jpg)
+![demo2](https://github.com/WangZhenHao/camouflage-extension/raw/dev/img/2.jpg)
+
+## 开发调试
+
+```
+npm install
+
+npm run watch
+```
+
+<!-- # Camouflaging the webpage which like Youtube,X and Google -->
+<!-- ### Debug the service worker -->
+
+<!-- chrome-extension://hnbocnmhkjjkedobihaiecgecebjdhjd/manifest.json -->
+
+<!-- chrome-extension://lbiigkhfkheiplacdjokghnmmdpgpiom/manifest.json -->
