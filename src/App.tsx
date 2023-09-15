@@ -8,9 +8,9 @@ interface typeWebList {
 }
 
 const listMap = [
-    { name: 'google', value: 1 },
-    { name: 'twitter', value: 1 },
-    { name: 'youtube', value: 1 },
+    { name: 'Google', value: 1 },
+    { name: 'Twitter', value: 1 },
+    { name: 'Youtube', value: 1 },
 ]
 
 const setWebsiteListFn = (websiteList: typeWebList[]) => {
@@ -24,24 +24,43 @@ const setWebsiteListFn = (websiteList: typeWebList[]) => {
 }
 const WebList = () => {
     const [websiteList, setWebsiteList] = useState<typeWebList[]>([])
+    const [all, setAll] = useState(1)
 
     useEffect(() => {
         ;(async () => {
             const res = await chrome.storage.local.get('websiteList')
+            const resAll = await chrome.storage.local.get('allset')
 
             const target = res && res.websiteList ? res.websiteList : listMap
-            setWebsiteList(target)
+            const allsetValue = resAll && typeof resAll.allset == 'number' ? resAll.allset : 1
 
+            setWebsiteList(target)
             setWebsiteListFn(target)
+            setAll(allsetValue)
         })()
     }, [])
 
     function HanldeSwitch(index: number, item: typeWebList) {
+        if (all === 0) return
+
         item.value = item.value === 1 ? 0 : 1
         websiteList[index] = item
 
         setWebsiteListFn(websiteList)
         setWebsiteList([...websiteList])
+    }
+
+    function hanlelAllSwitch() {
+        let allset = all === 1 ? 0 : 1
+        setAll(allset)
+
+        chrome.storage.local.set({
+            allset,
+        })
+        chrome.runtime.sendMessage({
+            name: 'switchAll',
+            allset,
+        })
     }
 
     const list = websiteList.map((item, index) => (
@@ -51,11 +70,21 @@ const WebList = () => {
             onClick={() => HanldeSwitch(index, item)}
         >
             <span className='p-r-10 web-name'>{item.name}</span>
-            <Switch checked={item.value === 1}></Switch>
+            <Switch disabled={all === 0} checked={item.value === 1}></Switch>
         </div>
     ))
 
-    return <>{list}</>
+    return (
+        <>
+            {list}
+            <Switch
+                checkedChildren='ON'
+                unCheckedChildren='OFF'
+                checked={all === 1}
+                onChange={hanlelAllSwitch}
+            />
+        </>
+    )
 }
 const Hearder = () => {
     return <h3 className='title'>网站伪装</h3>

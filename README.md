@@ -1,4 +1,4 @@
-# 网站伪装
+# 网站伪装chrome插件：Camouflage-extension
 
 通过向网站插入js，css改变一个网站的外观
 

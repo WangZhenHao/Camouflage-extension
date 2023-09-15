@@ -50,12 +50,12 @@
 //     { name: 'youtube', value: 1 },
 // ]
 const webMap = {
-    google: {
-        id: 'google',
+    Google: {
+        id: 'google_id',
         option: [
             {
                 allFrames: false,
-                id: 'google',
+                id: 'google_id',
                 js: ['./page/google/index.js'],
                 css: ['./page/google/index.css'],
                 runAt: 'document_start',
@@ -65,27 +65,50 @@ const webMap = {
     },
 }
 const listMap = [
-    { name: 'google', value: 1 },
-    { name: 'twitter', value: 1 },
-    { name: 'youtube', value: 1 },
+    { name: 'Google', value: 1 },
+    { name: 'Twitter', value: 1 },
+    { name: 'Youtube', value: 1 },
 ]
 
 chrome.runtime.onInstalled.addListener(async () => {
     const res = await chrome.storage.local.get('websiteList')
-    const target = res && res.websiteList ? res.websiteList : listMap
+    const allset = await chrome.storage.local.get('allset')
 
-    calucateWebSize(target)
+    if (allset && allset === 1) {
+        // const target = res && res.websiteList ? res.websiteList : listMap
+        calucateWebSize(res.websiteList)
+    }
 })
 
-chrome.runtime.onMessage.addListener(function (message) {
+chrome.runtime.onMessage.addListener(async function (message) {
     if (message.name === 'switchClick') {
         const webList = message.websiteList
 
         calucateWebSize(webList)
+    } else if (message.name === 'switchAll') {
+        const setAll = message.allset
+
+        if (setAll === 1) {
+            const res = await chrome.storage.local.get('websiteList')
+            calucateWebSize(res.websiteList)
+        } else {
+            unregisterAllDynamicContentScripts()
+        }
     }
 })
 
+async function unregisterAllDynamicContentScripts() {
+    try {
+        const scripts = await chrome.scripting.getRegisteredContentScripts()
+        const scriptIds = scripts.map((script) => script.id)
+        return chrome.scripting.unregisterContentScripts({ ids: scriptIds })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 async function calucateWebSize(webList) {
+    webList = webList ? webList : listMap
     const scripts = await chrome.scripting.getRegisteredContentScripts()
 
     webList.forEach((item) => {
