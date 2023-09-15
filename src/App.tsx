@@ -37,6 +37,10 @@ const WebList = () => {
             setWebsiteList(target)
             setWebsiteListFn(target)
             setAll(allsetValue)
+
+            if (allsetValue === 0) {
+                chrome.action.setBadgeText({ text: 'OFF' })
+            }
         })()
     }, [])
 
@@ -61,6 +65,12 @@ const WebList = () => {
             name: 'switchAll',
             allset,
         })
+
+        if (allset === 0) {
+            chrome.action.setBadgeText({ text: 'OFF' })
+        } else {
+            chrome.action.setBadgeText({ text: '' })
+        }
     }
 
     const list = websiteList.map((item, index) => (
