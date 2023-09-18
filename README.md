@@ -13,9 +13,11 @@ React + antd + eslint + prettier
 ## 开发调试
 
 ```
-npm install
+1. npm install
 
-npm run watch
+2. npm run watch
+
+3. 插件管理引入dist目录
 ```
 
 <!-- # Camouflaging the webpage which like Youtube,X and Google -->
